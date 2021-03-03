@@ -45,7 +45,8 @@ namespace EthereumSearcher.Data
                                     GasPrice = c.GasPrice,
                                     Nonce = c.Nonce,
                                     ToAddress = c.To,
-                                    TransactionHash = c.TransactionHash
+                                    TransactionHash = c.TransactionHash,
+                                    Value = c.Value
                                 }).ToList();
 
             return transactions;

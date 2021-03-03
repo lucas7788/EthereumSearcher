@@ -8,5 +8,6 @@ namespace EthereumSearcher.Common.Models
     {
         public string BlockNumber { get; set; }
         public string Gas { get; set; }
+        public string Value { get; set; }
     }
 }

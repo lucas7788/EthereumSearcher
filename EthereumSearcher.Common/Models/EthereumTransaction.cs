@@ -9,5 +9,7 @@ namespace EthereumSearcher.Common.Models
         public BigInteger Nonce { get; set; }
         public BigInteger BlockNumber { get; set; }
         public BigInteger Gas { get; set; }
+
+        public BigInteger Value { get; set; }
     }
 }
