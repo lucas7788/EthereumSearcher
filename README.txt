@@ -1,6 +1,6 @@
 === Ethereum Searcher ===
 
-Given a block and an ethereum address, this API will search the ethereum blockchain for blocks which contain transactions with either a To or From address the same as the given address.
+Given a block and an ethereum address, this API will search the ethereum blockchain for transactions within a given block that have either a To or From address the same as the address specified.
 
 How to run the API:
 
