@@ -6,6 +6,6 @@ namespace EthereumSearcher.Services.Interfaces
 {
     public interface ISearchService
     {
-        Task<IEnumerable<EthereumTransactionDto>> SearchEthereumTransactionsAsync(string searchAddress, long blockNumber);
+        Task<IEnumerable<EthereumTransactionDto>> SearchEthereumTransactionsAsync(string searchAddress, ulong blockNumber);
     }
 }

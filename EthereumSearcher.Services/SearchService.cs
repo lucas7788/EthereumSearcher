@@ -29,14 +29,11 @@ namespace EthereumSearcher.Services
         /// <param name="searchAddress"></param>
         /// <param name="blockNumber"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<EthereumTransactionDto>> SearchEthereumTransactionsAsync(string searchAddress, long blockNumber)
+        public async Task<IEnumerable<EthereumTransactionDto>> SearchEthereumTransactionsAsync(string searchAddress, ulong blockNumber)
         {
             var response = await _ethereumRepository.GetTransactionsAsync(searchAddress, blockNumber);
-            Console.WriteLine();
-            //map it
-            //_mapper.Map
-            
-            return null;
+
+            return _mapper.Map<IList<EthereumTransaction>, IList<EthereumTransactionDto>>(response);
         }
     }
 }

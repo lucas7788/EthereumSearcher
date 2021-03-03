@@ -10,7 +10,9 @@ namespace EthereumSearcher.Common.MappingProfiles
 	{
 		public EthereumTransactionMappingProfile()
 		{
-			CreateMap<EthereumTransaction, EthereumTransactionDto>();
-		}
+            CreateMap<EthereumTransaction, EthereumTransactionDto>()
+                .ForMember(destination => destination.BlockNumber, map => map.MapFrom(source => source.BlockNumber.ToString()))
+                .ForMember(destination => destination.Gas, map => map.MapFrom(source => source.Gas.ToString()));
+        }
 	}
 }

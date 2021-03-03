@@ -6,7 +6,9 @@ using EthereumSearcher.Data.Interfaces;
 using EthereumSearcher.Services;
 using EthereumSearcher.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -16,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace EthereumSearcher.Host
@@ -29,31 +32,16 @@ namespace EthereumSearcher.Host
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
             services.AddSwaggerGen();
 
             services.AddAutoMapper(typeof(EthereumTransactionMappingProfile));
-            //var config = new MapperConfiguration(cfg => {
-            //    cfg.AddProfile<EthereumTransactionMappingProfile>();
-            //});
 
-            services.AddScoped<ISearchRepository<EthereumTransaction>, EthereumRepository>();
-            services.AddScoped<ISearchService, SearchService>();
+            services.AddTransient<ISearchRepository<EthereumTransaction>, EthereumRepository>();
+            services.AddTransient<ISearchService, SearchService>();
 
-            
-            //_ = new MapperConfiguration(cfg =>
-            //            cfg.AddMaps(new[] {
-            //            "EthereumSearcher.Common"}),);
-
-            services.AddHttpClient("ethereumApi", c =>
-            {
-                c.BaseAddress = new Uri(Configuration.GetSection("InfuraSettings")["BaseUri"]);
-                c.DefaultRequestHeaders.Clear();
-                c.DefaultRequestHeaders.Add("Accept", "application/json");
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,6 +59,25 @@ namespace EthereumSearcher.Host
                 c.RoutePrefix = string.Empty;
             });
 
+            //Global Exception Handler
+
+            app.UseExceptionHandler(
+                options =>
+                {
+                    options.Run(
+                        async context =>
+                        {
+                            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                            context.Response.ContentType = "text/html";
+                            var ex = context.Features.Get<IExceptionHandlerFeature>();
+                            if (ex != null)
+                            {
+                                var err = $"<h1>Error: {ex.Error.Message}</h1>{ex.Error.StackTrace}";
+                                await context.Response.WriteAsync(err).ConfigureAwait(false);
+                            }
+                        });
+                }
+            );
 
             app.UseHttpsRedirection();
 

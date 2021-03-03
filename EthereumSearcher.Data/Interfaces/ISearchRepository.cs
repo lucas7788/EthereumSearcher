@@ -8,6 +8,6 @@ namespace EthereumSearcher.Data.Interfaces
 {
     public interface ISearchRepository<T> where T : TransactionBase
     {
-        Task<IList<T>> GetTransactionsAsync(string searchAddress, long blockNumber);
+        Task<IList<T>> GetTransactionsAsync(string searchAddress, ulong blockNumber);
     }
 }

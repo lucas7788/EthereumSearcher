@@ -32,7 +32,7 @@ namespace EthereumSearcher.Host.Controllers
         /// <returns></returns>
         [Route("eth/block")]
         [HttpGet]
-        public async Task<IEnumerable<EthereumTransactionDto>> SearchAddresses([FromQuery] string searchAddress, [FromQuery] long blockNumber)
+        public async Task<IEnumerable<EthereumTransactionDto>> SearchAddresses([FromQuery] string searchAddress, [FromQuery] ulong blockNumber)
         {
             return await _searchService.SearchEthereumTransactionsAsync(searchAddress, blockNumber);
         }
