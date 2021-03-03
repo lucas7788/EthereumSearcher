@@ -36,6 +36,5 @@ namespace EthereumSearcher.Host.Controllers
         {
             return await _searchService.SearchEthereumTransactionsAsync(address, blockNumber);
         }
-        //todo: fix routing
     }
 }

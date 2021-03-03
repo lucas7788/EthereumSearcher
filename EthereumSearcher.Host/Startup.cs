@@ -15,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Nethereum.Web3;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,7 +42,8 @@ namespace EthereumSearcher.Host
 
             services.AddTransient<ISearchRepository<EthereumTransaction>, EthereumRepository>();
             services.AddTransient<ISearchService, SearchService>();
-
+            services.AddTransient<IWeb3>(x =>
+                        new Web3(Configuration.GetSection("InfuraSettings").GetSection("EthereumEndpoint").Value));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
